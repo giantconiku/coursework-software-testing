@@ -1,0 +1,18 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Register Tests">
+
+    <listeners>
+        <listener class-name="com.giant.coursework.listeners.TestListener"/>
+    </listeners>
+
+    <test name="Register Tests">
+        <classes>
+            <class name="com.giant.coursework.tests.RegisterTests">
+                <methods>
+                    <include name="successfulRegistrationTest" />
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+</suite>
