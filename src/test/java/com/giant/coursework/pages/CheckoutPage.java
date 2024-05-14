@@ -58,24 +58,24 @@ public class CheckoutPage extends BasePage {
     @FindBy(css = "button.confirm-order-next-step-button")
     private WebElement confirmOrderWebElement;
 
-    @FindBy(tagName = "strong")
+    @FindBy(xpath = "//*[@id=\"main\"]/div/div/div/div[2]/div/div[1]/strong")
     private WebElement orderConfirmMessageWebElement;
 
     @FindBy(css = ".order-number > strong")
     private WebElement orderNumberWebElement;
 
-    // *******************************************************************************
+    // *************************************************************************************************
 
     public String getBillingAddressFirstName() {
-        return billingAddressFirstNameWebElement.getText();
+        return billingAddressFirstNameWebElement.getAttribute("value");
     }
 
     public String getBillingAddressLastName() {
-        return billingAddressLastNameWebElement.getText();
+        return billingAddressLastNameWebElement.getAttribute("value");
     }
 
     public String getBillingAddressEmail() {
-        return billingAddressEmailWebElement.getText();
+        return billingAddressEmailWebElement.getAttribute("value");
     }
 
     public void fillBillingAddressForm(String country,
@@ -133,8 +133,12 @@ public class CheckoutPage extends BasePage {
         continueToConfirmOrderWebElement.click();
     }
 
-    public int getTotal() {
-        return Integer.parseInt(totalWebElement.getText());
+    public double getTotal() {
+        return Double.parseDouble(formatString(totalWebElement.getText()));
+    }
+
+    private String formatString(String rawNumber) {
+        return rawNumber.replace(",", "").replace("$", "");
     }
 
     public void confirmOrder() {

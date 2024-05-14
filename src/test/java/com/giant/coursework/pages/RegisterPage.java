@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 
-public class RegisterPage {
+public class RegisterPage extends BasePage {
 
     @FindBy(name = "Gender")
     private List<WebElement> genderWebElements;
@@ -57,6 +57,8 @@ public class RegisterPage {
 
     @FindBy(className = "result")
     private WebElement resultWebElement;
+
+    // *************************************************************************************************
 
     public void register(char gender,
                          String firstName,

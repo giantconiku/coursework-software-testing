@@ -17,11 +17,14 @@ public class BasePage {
         PageFactory.initElements(Driver.getDriver(), this);
     }
 
-    @FindBy(className = "ico-logout")
-    public WebElement logoutMenuWebElement;
-
-    @FindBy(className = "content")
+    @FindBy(css = "div#bar-notification > div > p")
     private WebElement confirmMessageWebElement;
+
+    @FindBy(css = "div#bar-notification > div > p > a")
+    private WebElement linkInsideConfirmMessageWebElement;
+
+    @FindBy(className = "close")
+    private WebElement closeConfirmMessageWebElement;
 
     @FindBy(className = "wishlist-qty")
     private WebElement wishListQuantityWebElement;
@@ -32,12 +35,13 @@ public class BasePage {
     @FindBy(className = "ico-cart")
     private WebElement shoppingCartMenuWebElement;
 
+    @FindBy(id = "flyout-cart")
+    private WebElement shoppingCartModalWebElement;
+
     @FindBy(className = "cart-button")
     private WebElement goToCartButtonWebElement;
 
-    // ----------------------------------------------
-
-    @FindBy(linkText = "/computers")
+    @FindBy(css = "body > div.master-wrapper-page > div.header-menu > ul.top-menu.notmobile > li:nth-child(1) > a")
     private WebElement computerMenuWebElement;
 
     @FindBy(linkText = "/electronics")
@@ -46,19 +50,54 @@ public class BasePage {
     @FindBy(linkText = "/desktops")
     private WebElement desktopsMenuCategoryWebElement;
 
-    @FindBy(linkText = "/notebooks")
+    @FindBy(css = "body > div.master-wrapper-page > div.header-menu > ul.top-menu.notmobile > li:nth-child(1) > ul > li:nth-child(2) > a")
     private WebElement notebooksMenuCategoryWebElement;
 
-    // ******************************************************
+    @FindBy(css = "#main > div > div.center-2 > div > div.page-body > div.products-container > " +
+            "div.products-wrapper > div > div > div:nth-child(2) > div > div.details > div.add-info > " +
+            "div.buttons > button.button-2.add-to-wishlist-button")
+    private WebElement addToWishListForSecondProductWebElement;
 
-    public void logout() {
-        logoutMenuWebElement.click();
-    }
+    @FindBy(css = "#main > div > div.center-2 > div > div.page-body > div.products-container > " +
+            "div.products-wrapper > div > div > div:nth-child(3) > div > div.details > div.add-info > " +
+            "div.buttons > button.button-2.add-to-wishlist-button")
+    private WebElement addToWishListForThirdProductWebElement;
 
-    public String getConfirmMessage() {
+    @FindBy(css = "#main > div > div.center-2 > div > div.page-body > div.products-container > " +
+            "div.products-wrapper > div > div > div:nth-child(4) > div > div.details > div.add-info > " +
+            "div.buttons > button.button-2.product-box-add-to-cart-button")
+    private WebElement addToShoppingCartForFourthProductWebElement;
+
+    @FindBy(css = "#main > div > div.center-2 > div > div.page-body > div.products-container > " +
+            "div.products-wrapper > div > div > div:nth-child(5) > div > div.details > div.add-info > " +
+            "div.buttons > button.button-2.product-box-add-to-cart-button")
+    private WebElement addToShoppingCartForFifthProductWebElement;
+
+    @FindBy(css = "#main > div > div.center-2 > div > div.page-body > div.products-container > " +
+            "div.products-wrapper > div > div > div:nth-child(6) > div > div.details > div.add-info > " +
+            "div.buttons > button.button-2.product-box-add-to-cart-button")
+    private WebElement addToShoppingCartForSixthProductWebElement;
+
+    // *************************************************************************************************
+
+    public String getConfirmMessageForAddingProductToWishList() {
 
         Wait.getWait().until(ExpectedConditions.visibilityOf(confirmMessageWebElement));
+        Wait.getWait().until(ExpectedConditions
+                .attributeContains(linkInsideConfirmMessageWebElement, "href", "/wishlist"));
         return confirmMessageWebElement.getText();
+    }
+
+    public String getConfirmMessageForAddingProductToShoppingCart() {
+
+        Wait.getWait().until(ExpectedConditions.visibilityOf(confirmMessageWebElement));
+        Wait.getWait().until(ExpectedConditions
+                    .attributeContains(linkInsideConfirmMessageWebElement, "href", "/cart"));
+        return confirmMessageWebElement.getText();
+    }
+
+    public void closeConfirmMessage() {
+        Wait.getWait().until(ExpectedConditions.elementToBeClickable(closeConfirmMessageWebElement)).click();
     }
 
     public String getWishListQuantity() {
@@ -73,15 +112,17 @@ public class BasePage {
         hover(shoppingCartMenuWebElement);
     }
 
-    public boolean goToCartButtonIsDisplayed() {
-        return goToCartButtonWebElement.isDisplayed();
-    }
+    public String getClassValueOfShoppingCartModal() {
+        Wait.getWait().until(ExpectedConditions.attributeContains(shoppingCartModalWebElement, "class", "flyout-cart active"));
+        return shoppingCartModalWebElement.getAttribute("class");
+    } // ?
+
 
     public void navigateToShoppingCartPage() {
-        goToCartButtonWebElement.click();
+        Wait.getWait().until(ExpectedConditions.elementToBeClickable(goToCartButtonWebElement)).click();
     }
 
-    // ----------------------------------------------
+    // ---------------------------------------------------------------------------------
 
     public void hoverOverMenu(DashboardMenu menuName, DashboardMenuCategory categoryName) {
 
@@ -116,5 +157,47 @@ public class BasePage {
     private void hover(WebElement webElement) {
 
         Action.getAction().moveToElement(webElement).build().perform();
+    }
+
+    public void addToWishListProductWithNumber(int productNumber) throws InterruptedException {
+
+        switch (productNumber) {
+
+            case 2:
+                Wait.getWait().until(ExpectedConditions
+                        .elementToBeClickable(addToWishListForSecondProductWebElement)).click();
+                Thread.sleep(1000);
+                break;
+
+            case 3:
+                Wait.getWait().until(ExpectedConditions
+                        .elementToBeClickable(addToWishListForThirdProductWebElement)).click();
+                Thread.sleep(1000);
+                break;
+        }
+    }
+
+    public void addToShoppingCartProductWithNumber(int productNumber) throws InterruptedException {
+
+        switch (productNumber) {
+
+            case 4:
+                Wait.getWait().until(ExpectedConditions
+                        .elementToBeClickable(addToShoppingCartForFourthProductWebElement)).click();
+                Thread.sleep(1000);
+                break;
+
+            case 5:
+                Wait.getWait().until(ExpectedConditions
+                        .elementToBeClickable(addToShoppingCartForFifthProductWebElement)).click();
+                Thread.sleep(1000);
+                break;
+
+            case 6:
+                Wait.getWait().until(ExpectedConditions
+                        .elementToBeClickable(addToShoppingCartForSixthProductWebElement)).click();
+                Thread.sleep(1000);
+                break;
+        }
     }
 }

@@ -3,7 +3,7 @@ package com.giant.coursework.pages;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class LoginPage {
+public class LoginPage extends BasePage {
 
     @FindBy(id = "Email")
     private WebElement emailWebElement;
@@ -23,6 +23,7 @@ public class LoginPage {
     @FindBy(className = "register-button")
     private WebElement registerButtonWebElement;
 
+    // *************************************************************************************************
 
     public void login(String email, String password) {
 

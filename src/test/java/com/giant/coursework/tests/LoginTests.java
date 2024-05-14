@@ -3,6 +3,8 @@ package com.giant.coursework.tests;
 import com.giant.coursework.pages.DashboardPage;
 import com.giant.coursework.pages.LoginPage;
 import com.giant.coursework.pages.WelcomePage;
+import com.giant.coursework.utils.Driver;
+import com.giant.coursework.utils.GlobalConfigs;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -23,16 +25,19 @@ public class LoginTests {
 
     @AfterMethod
     public void afterEach() {
+
         dashboardPage.logout();
+        Driver.getDriver().close();
     }
 
     @Test
     public void successfulLoginTest() {
 
         welcomePage.navigateToLoginPage();
-        loginPage.login("gen@em.com", "$€1€n1uM");
+
+        loginPage.login(GlobalConfigs.EMAIL, "$€1€n1uM");
 
         Assert.assertTrue(dashboardPage.getWelcomeText().equals("Welcome to our store")
-                && dashboardPage.logoutMenuWebElement.isDisplayed());
+                && dashboardPage.logoutMenuIsDisplayed());
     }
 }

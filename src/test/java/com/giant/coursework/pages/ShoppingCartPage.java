@@ -32,6 +32,8 @@ public class ShoppingCartPage extends BasePage {
     @FindBy(id = "checkout")
     private WebElement checkoutButtonWebElement;
 
+    // *************************************************************************************************
+
     public String getPageTitle() {
         return pageTitleWebElement.getText();
     }
@@ -44,14 +46,14 @@ public class ShoppingCartPage extends BasePage {
         return estimateShippingButtonWebElement.isDisplayed();
     }
 
-    public int calculateSubTotalFromTable() {
-        return Integer.parseInt(firstSubTotalWebElement.getText()) +
-                Integer.parseInt(secondSubTotalWebElement.getText()) +
-                Integer.parseInt(thirdSubTotalWebElement.getText());
+    public double calculateSubTotalFromTable() {
+        return Double.parseDouble(formatString(firstSubTotalWebElement.getText())) +
+                Double.parseDouble(formatString(secondSubTotalWebElement.getText())) +
+                Double.parseDouble(formatString(thirdSubTotalWebElement.getText()));
     }
 
-    public int getTotal() {
-        return Integer.parseInt(totalWebElement.getText());
+    public double getTotal() {
+        return Double.parseDouble(formatString(totalWebElement.getText()));
     }
 
     public void agreeWithTermsOfService() {
@@ -60,5 +62,9 @@ public class ShoppingCartPage extends BasePage {
 
     public void navigateToCheckoutPage() {
         checkoutButtonWebElement.click();
+    }
+
+    private String formatString(String rawNumber) {
+        return rawNumber.replace(",", "").replace("$", "");
     }
 }

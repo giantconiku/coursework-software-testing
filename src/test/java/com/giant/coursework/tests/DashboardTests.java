@@ -2,11 +2,10 @@ package com.giant.coursework.tests;
 
 import com.giant.coursework.enums.DashboardMenu;
 import com.giant.coursework.enums.DashboardMenuCategory;
-import com.giant.coursework.pages.DashboardPage;
-import com.giant.coursework.pages.LoginPage;
-import com.giant.coursework.pages.NotebooksPage;
-import com.giant.coursework.pages.WelcomePage;
+import com.giant.coursework.pages.*;
 import com.giant.coursework.utils.Driver;
+import com.giant.coursework.utils.GlobalConfigs;
+
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
@@ -32,30 +31,47 @@ public class DashboardTests {
     }
 
     @Test
-    public void successfulNotebooksAdditionToWishListAndShoppingCartTest() {
+    public void successfulNotebooksAdditionToWishListAndToShoppingCartTest() throws InterruptedException {
 
         welcomePage.navigateToLoginPage();
-        loginPage.login("gen@em.com", "$€1€n1uM");
+        loginPage.login(GlobalConfigs.EMAIL, "$€1€n1uM");
+
+        // -----------------------------------------------------------------------
 
         dashboardPage.hoverOverMenu(DashboardMenu.COMPUTERS, DashboardMenuCategory.NOTEBOOKS);
-        Assert.assertEquals(notebooksPage.getPageTitle(), "NoteBooks");
+        Assert.assertEquals(notebooksPage.getPageTitle(), "Notebooks");
 
         notebooksPage.addToWishListProductWithNumber(2);
-        Assert.assertEquals(notebooksPage.getConfirmMessage(), "The product has been added to your wishlist");
+        Assert.assertEquals(notebooksPage.getConfirmMessageForAddingProductToWishList(),
+                "The product has been added to your wishlist");
+
+        notebooksPage.closeConfirmMessage();
 
         notebooksPage.addToWishListProductWithNumber(3);
-        Assert.assertEquals(notebooksPage.getConfirmMessage(), "The product has been added to your wishlist");
+        Assert.assertEquals(notebooksPage.getConfirmMessageForAddingProductToWishList(),
+                "The product has been added to your wishlist");
+
+        notebooksPage.closeConfirmMessage();
 
         notebooksPage.addToShoppingCartProductWithNumber(4);
-        Assert.assertEquals(notebooksPage.getConfirmMessage(), "The product has been added to your shopping cart");
+        Assert.assertEquals(notebooksPage.getConfirmMessageForAddingProductToShoppingCart(),
+                "The product has been added to your shopping cart");
+
+        notebooksPage.closeConfirmMessage();
 
         notebooksPage.addToShoppingCartProductWithNumber(5);
-        Assert.assertEquals(notebooksPage.getConfirmMessage(), "The product has been added to your shopping cart");
+        Assert.assertEquals(notebooksPage.getConfirmMessageForAddingProductToShoppingCart(),
+                "The product has been added to your shopping cart");
+
+        notebooksPage.closeConfirmMessage();
 
         notebooksPage.addToShoppingCartProductWithNumber(6);
-        Assert.assertEquals(notebooksPage.getConfirmMessage(), "The product has been added to your shopping cart");
+        Assert.assertEquals(notebooksPage.getConfirmMessageForAddingProductToShoppingCart(),
+                "The product has been added to your shopping cart");
 
-        Assert.assertEquals(notebooksPage.getWishListQuantity(), "2");
-        Assert.assertEquals(notebooksPage.getShoppingCartQuantity(), "3");
+        notebooksPage.closeConfirmMessage();
+
+        Assert.assertEquals(notebooksPage.getWishListQuantity(), "(2)");
+        Assert.assertEquals(notebooksPage.getShoppingCartQuantity(), "(3)");
     }
 }

@@ -1,9 +1,8 @@
 package com.giant.coursework.tests;
 
-import com.giant.coursework.enums.DashboardMenu;
-import com.giant.coursework.enums.DashboardMenuCategory;
 import com.giant.coursework.pages.*;
 import com.giant.coursework.utils.Driver;
+import com.giant.coursework.utils.GlobalConfigs;
 
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -13,7 +12,6 @@ public class ShoppingCartTests {
 
     private final WelcomePage welcomePage;
     private final LoginPage loginPage;
-    private final DashboardPage dashboardPage;
     private final NotebooksPage notebooksPage;
     private final ShoppingCartPage shoppingCartPage;
     private final CheckoutPage checkoutPage;
@@ -22,7 +20,6 @@ public class ShoppingCartTests {
 
         welcomePage = new WelcomePage();
         loginPage = new LoginPage();
-        dashboardPage = new DashboardPage();
         notebooksPage = new NotebooksPage();
         shoppingCartPage = new ShoppingCartPage();
         checkoutPage = new CheckoutPage();
@@ -34,36 +31,15 @@ public class ShoppingCartTests {
     }
 
     @Test
-    public void successfulOrderTest(){
+    public void successfulOrderTest() {
 
         welcomePage.navigateToLoginPage();
-        loginPage.login("giga@em.com", "giga1234");
-
-        dashboardPage.hoverOverMenu(DashboardMenu.COMPUTERS, DashboardMenuCategory.NOTEBOOKS);
-        Assert.assertEquals(notebooksPage.getPageTitle(), "NoteBooks");
-
-        notebooksPage.addToWishListProductWithNumber(2);
-        Assert.assertEquals(notebooksPage.getConfirmMessage(), "The product has been added to your wishlist");
-
-        notebooksPage.addToWishListProductWithNumber(3);
-        Assert.assertEquals(notebooksPage.getConfirmMessage(), "The product has been added to your wishlist");
-
-        notebooksPage.addToShoppingCartProductWithNumber(4);
-        Assert.assertEquals(notebooksPage.getConfirmMessage(), "The product has been added to your shopping cart");
-
-        notebooksPage.addToShoppingCartProductWithNumber(5);
-        Assert.assertEquals(notebooksPage.getConfirmMessage(), "The product has been added to your shopping cart");
-
-        notebooksPage.addToShoppingCartProductWithNumber(6);
-        Assert.assertEquals(notebooksPage.getConfirmMessage(), "The product has been added to your shopping cart");
-
-        Assert.assertEquals(notebooksPage.getWishListQuantity(), "2");
-        Assert.assertEquals(notebooksPage.getShoppingCartQuantity(), "3");
+        loginPage.login(GlobalConfigs.EMAIL, "$€1€n1uM");
 
         // ------------------------------------------------------------------------------------
 
         notebooksPage.hoverOverShoppingCartMenu();
-        Assert.assertTrue(notebooksPage.goToCartButtonIsDisplayed());
+        Assert.assertEquals(notebooksPage.getClassValueOfShoppingCartModal(), "flyout-cart active"); // ?
 
         notebooksPage.navigateToShoppingCartPage();
         Assert.assertEquals(shoppingCartPage.getPageTitle(), "Shopping cart");
@@ -71,16 +47,16 @@ public class ShoppingCartTests {
         Assert.assertTrue(shoppingCartPage.continueShoppingButtonIsDisplayed() &&
                                    shoppingCartPage.estimateShippingButtonIsDisplayed());
 
-        Assert.assertEquals(shoppingCartPage.calculateSubTotalFromTable(), shoppingCartPage.getTotal());
+        double shoppingCardPageTotal = shoppingCartPage.getTotal();
 
-        int shoppingCardPageTotal = shoppingCartPage.getTotal();
+        Assert.assertEquals(shoppingCartPage.calculateSubTotalFromTable(), shoppingCardPageTotal);
 
         shoppingCartPage.agreeWithTermsOfService();
         shoppingCartPage.navigateToCheckoutPage();
 
         Assert.assertEquals(checkoutPage.getBillingAddressFirstName(), "Giga");
         Assert.assertEquals(checkoutPage.getBillingAddressLastName(), "Giant");
-        Assert.assertEquals(checkoutPage.getBillingAddressEmail(), "gigagiant@email.com");
+        Assert.assertEquals(checkoutPage.getBillingAddressEmail(), GlobalConfigs.EMAIL);
 
         checkoutPage.fillBillingAddressForm("Albania",
                                                "Tirane",

@@ -6,7 +6,7 @@ import com.giant.coursework.utils.GlobalConfigs;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class WelcomePage {
+public class WelcomePage extends BasePage {
 
     @FindBy(className = "ico-login")
     private WebElement loginMenuWebElement;
