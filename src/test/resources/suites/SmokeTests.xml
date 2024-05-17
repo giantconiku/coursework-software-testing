@@ -1,0 +1,33 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Smoke Tests">
+
+    <listeners>
+        <listener class-name="com.giant.coursework.listeners.TestsBaseListener" />
+    </listeners>
+
+    <test name="Smoke Tests">
+        <classes>
+            <class name="com.giant.coursework.tests.RegisterTests">
+                <methods>
+                    <include name="successfulRegistrationTest" />
+                </methods>
+            </class>
+            <class name="com.giant.coursework.tests.LoginTests">
+                <methods>
+                    <include name="successfulLoginTest" />
+                </methods>
+            </class>
+            <class name="com.giant.coursework.tests.DashboardTests">
+                <methods>
+                    <include name="successfulNotebooksAdditionToWishListAndToShoppingCartTest" />
+                </methods>
+            </class>
+            <class name="com.giant.coursework.tests.ShoppingCartTests">
+                <methods>
+                    <include name="successfulOrderTest" />
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+</suite>

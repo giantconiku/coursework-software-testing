@@ -39,7 +39,7 @@ public class ShoppingCartTests {
         // ------------------------------------------------------------------------------------
 
         notebooksPage.hoverOverShoppingCartMenu();
-        Assert.assertEquals(notebooksPage.getClassValueOfShoppingCartModal(), "flyout-cart active"); // ?
+        Assert.assertEquals(notebooksPage.getClassValueOfShoppingCartModal(), "flyout-cart active");
 
         notebooksPage.navigateToShoppingCartPage();
         Assert.assertEquals(shoppingCartPage.getPageTitle(), "Shopping cart");

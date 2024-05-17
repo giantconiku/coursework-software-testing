@@ -2,7 +2,7 @@
 <suite name="Register Tests">
 
     <listeners>
-        <listener class-name="com.giant.coursework.listeners.TestListener"/>
+        <listener class-name="com.giant.coursework.listeners.TestsBaseListener"/>
     </listeners>
 
     <test name="Register Tests">

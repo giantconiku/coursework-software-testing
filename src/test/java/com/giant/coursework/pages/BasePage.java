@@ -113,10 +113,10 @@ public class BasePage {
     }
 
     public String getClassValueOfShoppingCartModal() {
-        Wait.getWait().until(ExpectedConditions.attributeContains(shoppingCartModalWebElement, "class", "flyout-cart active"));
-        return shoppingCartModalWebElement.getAttribute("class");
-    } // ?
 
+        Wait.getWait().until(ExpectedConditions.attributeContains(shoppingCartModalWebElement, "class", "active"));
+        return shoppingCartModalWebElement.getAttribute("class");
+    }
 
     public void navigateToShoppingCartPage() {
         Wait.getWait().until(ExpectedConditions.elementToBeClickable(goToCartButtonWebElement)).click();
